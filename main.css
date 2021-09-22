@@ -53,17 +53,17 @@ h2 {
 .cartaTitle {
   display: inline-block;
   color: white;
-  width: 245px;
   margin: auto;
 }
 
 .carta {
   display: inline-block;
-  background-color: #ffe164;
-  width: 245px;
-  height: 343px;
   border-radius: 16px;
   margin: auto;
+}
+
+.imagem {
+  font-size: 10px;
 }
 
 .imagem img {
@@ -71,11 +71,14 @@ h2 {
   max-height: 60%;
 }
 
+table {
+  background-color: #ffe164;
+}
+
 table,
 tr,
 th,
 td {
-  border: 1px solid black;
   text-align: center;
   border-radius: 16px;
   padding: 2px;
@@ -85,7 +88,7 @@ tr {
   background-color: #74b352;
 }
 
-.opcoes,
-p {
+.footer-info {
   color: white;
+  font-size: 10px;
 }
