@@ -50,6 +50,13 @@ h2 {
   color: #ffffff;
 }
 
+.cartaTitle {
+  display: inline-block;
+  color: white;
+  width: 245px;
+  margin: auto;
+}
+
 .carta {
   display: inline-block;
   background-color: #ffe164;

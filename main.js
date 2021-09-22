@@ -7,12 +7,12 @@ function Carta(nome, img) {
   this.nome = nome;
   this.img = img;
   this.atributos = {
-    hp: Math.floor(Math.random() * 16),
-    atk: Math.floor(Math.random() * 16),
-    def: Math.floor(Math.random() * 16),
-    spcAtk: Math.floor(Math.random() * 16),
-    spcDef: Math.floor(Math.random() * 16),
-    speed: Math.floor(Math.random() * 16),
+    HP: Math.floor(Math.random() * 16),
+    Attack: Math.floor(Math.random() * 16),
+    Defense: Math.floor(Math.random() * 16),
+    "Sp. Atk": Math.floor(Math.random() * 16),
+    "Sp. Def": Math.floor(Math.random() * 16),
+    Speed: Math.floor(Math.random() * 16),
   };
 }
 
@@ -70,32 +70,42 @@ const listaDeCartas = [
 let cartasSelecionadas;
 
 function exibirCartaNaTela(carta, num) {
-  let elemento =
-    "<table><tr><th>Nome</th><td>" +
-    carta.nome +
-    "</td></tr>" +
-    "<tr><td colspan='2'><div class='imagem'><img src=" +
-    carta.img +
-    " alt='' /></div></td></tr>" +
-    "<tr><th>HP</th><td>" +
-    carta.atributos.hp +
-    "</td></tr>" +
-    "<tr><th>Attack</th><td>" +
-    carta.atributos.atk +
-    "</td></tr>" +
-    "<tr><th>Defense</th><td>" +
-    carta.atributos.def +
-    "</td></tr>" +
-    "<tr><th>Sp. Atk</th><td>" +
-    carta.atributos.spcAtk +
-    "</td></tr>" +
-    "<tr><th>Sp. Def</th><td>" +
-    carta.atributos.spcDef +
-    "</td></tr>" +
-    "<tr><th>Speed</th><td>" +
-    carta.atributos.speed +
-    "</td></tr></table>";
+  let elemento = "<table><tbody>";
+  elemento += "<tr><th>Nome</th><td>" + carta.nome + "</td></tr>";
+  elemento += "<tr><td colspan='2'><div class='imagem'>";
+  elemento += "<img src=" + carta.img + " alt='' />";
+  elemento += "</div></td></tr>";
+  for (const atrb in carta.atributos) {
+    if (Object.hasOwnProperty.call(carta.atributos, atrb)) {
+      const valorAtrb = carta.atributos[atrb];
+      elemento +=
+        "<tr><td><input type='radio' name='atrbCarta" +
+        num +
+        "' id='" +
+        atrb +
+        "_Carta" +
+        num +
+        "'></td>";
+      elemento +=
+        "<th>" +
+        "<label for='" +
+        atrb +
+        "Carta" +
+        num +
+        "'>" +
+        atrb +
+        ": " +
+        valorAtrb +
+        "</label>" +
+        "</th></tr>";
+    }
+  }
+  elemento += "</tbody></table>";
   document.getElementById("carta" + num).innerHTML = elemento;
+}
+
+function selecionarAtrib(atrb) {
+  console.log("Atributo selecionado: " + atrb);
 }
 
 function selecionarCartas() {
@@ -116,6 +126,7 @@ function embaralharCartas(array) {
 }
 
 function sortearCarta() {
+  document.getElementById("carta2").innerHTML = "";
   embaralharCartas(listaDeCartas);
   cartasSelecionadas = selecionarCartas();
   exibirCartaNaTela(cartasSelecionadas.cartaJogador, 1);
@@ -125,34 +136,42 @@ function sortearCarta() {
 }
 
 function jogar() {
-  const atributos = document.getElementsByName("atrb");
+  const atributos = document.getElementsByName("atrbCarta1");
   let atributoSelecionado = "";
   atributos.forEach((atributo) => {
     if (atributo.checked) {
-      atributoSelecionado = atributo.id;
+      atributoSelecionado = atributo.id.split("_")[0];
     }
   });
   let resultadoTexto = "Selecione um atributo";
   if (atributoSelecionado !== "") {
     if (
-      cartasSelecionadas.cartaJogador.atributos[atributoSelecionado] >
+      cartasSelecionadas.cartaJogador.atributos[atributoSelecionado] ===
       cartasSelecionadas.cartaComputador.atributos[atributoSelecionado]
     ) {
-      resultadoTexto = "Você venceu!";
-      console.log({ cartaComputador: cartasSelecionadas.cartaComputador });
-      btnSortear.disabled = false;
-      btnJogar.disabled = true;
-    } else if (
-      cartasSelecionadas.cartaJogador.atributos[atributoSelecionado] <
-      cartasSelecionadas.cartaComputador.atributos[atributoSelecionado]
-    ) {
-      resultadoTexto = "Você perdeu!";
-      console.log({ cartaComputador: cartasSelecionadas.cartaComputador });
-      btnSortear.disabled = false;
-      btnJogar.disabled = true;
+      resultadoTexto = "Empatou! Selecione outro atributo.";
     } else {
-      resultadoTexto = "Empatou!";
+      if (
+        cartasSelecionadas.cartaJogador.atributos[atributoSelecionado] <
+        cartasSelecionadas.cartaComputador.atributos[atributoSelecionado]
+      ) {
+        resultadoTexto = "Você perdeu!";
+      } else {
+        resultadoTexto = "Você venceu!";
+      }
+      exibirCartaNaTela(cartasSelecionadas.cartaComputador, 2);
+      btnSortear.disabled = false;
+      btnJogar.disabled = true;
     }
   }
   resultado.innerHTML = resultadoTexto;
 }
+
+function cartasExemplo() {
+  embaralharCartas(listaDeCartas);
+  cartasSelecionadas = selecionarCartas();
+  exibirCartaNaTela(cartasSelecionadas.cartaJogador, 1);
+  exibirCartaNaTela(cartasSelecionadas.cartaComputador, 2);
+}
+
+cartasExemplo();
