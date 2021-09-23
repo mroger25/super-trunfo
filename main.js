@@ -3,6 +3,10 @@ const opcoes = document.getElementById("opcoes");
 const btnJogar = document.getElementById("btnJogar");
 const resultado = document.getElementById("resultado");
 
+let cartasSelecionadas;
+const cartasDoJogador = [];
+const cartasDoComputador = [];
+
 function Carta(nome, img) {
   this.nome = nome;
   this.img = img;
@@ -66,10 +70,6 @@ const listaDeCartas = [
     "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/012.png"
   ),
 ];
-
-let cartasSelecionadas;
-const cartasDoJogador = [];
-const cartasDoComputador = [];
 
 function exibirCartaNaTela(carta, num, hasInput) {
   let elemento = "<div class='cartaTitle'>";
@@ -149,6 +149,11 @@ function sortearCarta() {
 }
 
 function jogar() {
+  let atributoSelecionado = selecionarAtributo();
+  mostrarResultadoNaTela(atributoSelecionado);
+}
+
+function selecionarAtributo() {
   const atributos = document.getElementsByName("atrbCarta");
   let atributoSelecionado = "";
   atributos.forEach((atributo) => {
@@ -156,18 +161,25 @@ function jogar() {
       atributoSelecionado = atributo.id;
     }
   });
+  return atributoSelecionado;
+}
+
+function mostrarResultadoNaTela(atributoSelecionado) {
+  let resultadoTexto = compararAtributos(atributoSelecionado);
+  resultado.innerHTML = resultadoTexto;
+}
+
+function compararAtributos(atributoSelecionado) {
   let resultadoTexto = "Selecione um atributo";
   if (atributoSelecionado !== "") {
-    if (
-      cartasSelecionadas.cartaJogador.atributos[atributoSelecionado] ===
-      cartasSelecionadas.cartaComputador.atributos[atributoSelecionado]
-    ) {
+    const atrbJgd =
+      cartasSelecionadas.cartaJogador.atributos[atributoSelecionado];
+    const atrbCpu =
+      cartasSelecionadas.cartaComputador.atributos[atributoSelecionado];
+    if (atrbJgd === atrbCpu) {
       resultadoTexto = "Empatou! Selecione outro atributo.";
     } else {
-      if (
-        cartasSelecionadas.cartaJogador.atributos[atributoSelecionado] <
-        cartasSelecionadas.cartaComputador.atributos[atributoSelecionado]
-      ) {
+      if (atrbJgd < atrbCpu) {
         resultadoTexto = "Você perdeu!";
         cartasDoComputador.push(cartasSelecionadas.cartaJogador);
         cartasDoComputador.push(cartasSelecionadas.cartaComputador);
@@ -182,7 +194,7 @@ function jogar() {
       btnJogar.disabled = true;
     }
   }
-  resultado.innerHTML = resultadoTexto;
+  return resultadoTexto;
 }
 
 function cartasExemplo() {
