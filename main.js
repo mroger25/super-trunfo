@@ -68,6 +68,8 @@ const listaDeCartas = [
 ];
 
 let cartasSelecionadas;
+const cartasDoJogador = [];
+const cartasDoComputador = [];
 
 function exibirCartaNaTela(carta, num, hasInput) {
   let elemento = "<div class='cartaTitle'>";
@@ -103,8 +105,8 @@ function exibirCartaNaTela(carta, num, hasInput) {
 }
 
 function selecionarCartas() {
-  const cartaJogador = listaDeCartas[0];
-  const cartaComputador = listaDeCartas[1];
+  const cartaJogador = cartasDoJogador.shift();
+  const cartaComputador = cartasDoComputador.shift();
   return { cartaComputador, cartaJogador };
 }
 
@@ -119,9 +121,26 @@ function embaralharCartas(array) {
   }
 }
 
+function cortarBaralho() {
+  const totalCartas = cartasDoJogador.length + cartasDoComputador.length;
+  if (totalCartas === 0) {
+    const indexMediana = Math.floor(listaDeCartas.length / 2);
+    const indexMax = indexMediana * 2;
+    for (let i = 0; i < indexMax; i++) {
+      const carta = listaDeCartas[i];
+      if (i < indexMediana) {
+        cartasDoJogador.push(carta);
+      } else {
+        cartasDoComputador.push(carta);
+      }
+    }
+  }
+}
+
 function sortearCarta() {
   document.getElementById("carta1").innerHTML = "";
   embaralharCartas(listaDeCartas);
+  cortarBaralho();
   cartasSelecionadas = selecionarCartas();
   exibirCartaNaTela(cartasSelecionadas.cartaJogador, 0, true);
   btnSortear.disabled = true;
@@ -150,11 +169,16 @@ function jogar() {
         cartasSelecionadas.cartaComputador.atributos[atributoSelecionado]
       ) {
         resultadoTexto = "Você perdeu!";
+        cartasDoComputador.push(cartasSelecionadas.cartaJogador);
+        cartasDoComputador.push(cartasSelecionadas.cartaComputador);
+        if (cartasDoJogador.length > 0) btnSortear.disabled = false;
       } else {
         resultadoTexto = "Você venceu!";
+        cartasDoJogador.push(cartasSelecionadas.cartaComputador);
+        cartasDoJogador.push(cartasSelecionadas.cartaJogador);
+        if (cartasDoComputador.length > 0) btnSortear.disabled = false;
       }
       exibirCartaNaTela(cartasSelecionadas.cartaComputador, 1);
-      btnSortear.disabled = false;
       btnJogar.disabled = true;
     }
   }
@@ -163,9 +187,8 @@ function jogar() {
 
 function cartasExemplo() {
   embaralharCartas(listaDeCartas);
-  cartasSelecionadas = selecionarCartas();
-  exibirCartaNaTela(cartasSelecionadas.cartaJogador, 0);
-  exibirCartaNaTela(cartasSelecionadas.cartaComputador, 1);
+  exibirCartaNaTela(listaDeCartas[0], 0);
+  exibirCartaNaTela(listaDeCartas[1], 1);
 }
 
 cartasExemplo();
