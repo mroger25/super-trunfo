@@ -1,24 +1,33 @@
 body {
+  margin: 0;
   background-image: url("https://i.pinimg.com/736x/47/b9/14/47b91495e80426f8b2d419a23c80da59--backgrounds-final.jpg");
-  background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
   font-family: "Roboto Mono", monospace;
   text-align: center;
-  margin: 0;
 }
 
 .container {
-  height: 100vh;
+  margin: 20px;
+  color: #ffffff;
 }
 
 .page-logo {
   width: 300px;
+  margin: 10px;
 }
 
-.cartaTitle {
-  color: white;
-  margin: auto;
+.page-title {
+  font-weight: bold;
+  font-size: 32px;
+  margin: 10px;
+}
+
+.cartas {
+  margin: 10px;
+  min-height: 400px;
 }
 
 .carta {
@@ -28,6 +37,7 @@ body {
 }
 
 .carta-table {
+  color: #000000;
   background-image: linear-gradient(#fed242, #e1fe9f, #bee753);
   padding: 8px;
   border-radius: 8px;
@@ -53,6 +63,7 @@ body {
 .linhaAtrb {
   background-color: #74b352;
   margin: 4px 0;
+  transition-duration: 0.4s;
 }
 
 .tituloCarta,
@@ -90,4 +101,45 @@ input {
 .footer-info {
   color: white;
   font-size: 10px;
+}
+
+button {
+  position: relative;
+  background-color: #74b352;
+  border: none;
+  font-size: 20px;
+  color: #153602;
+  padding: 10px;
+  width: 200px;
+  font-weight: bold;
+  text-align: center;
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4f922b;
+  color: white;
+}
+
+button::after {
+  content: "";
+  background: #f1f1f1;
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s;
+}
+
+button:active::after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s;
 }

@@ -7,10 +7,9 @@ let cartasSelecionadas;
 const cartasDoJogador = [];
 const cartasDoComputador = [];
 
-function Carta({ id, name, img }) {
+function Carta({ id, name }) {
   this.id = id;
   this.nome = name;
-  this.img = img;
   this.atributos = {
     HP: Math.floor(Math.random() * 16),
     "Phc. Atk": Math.floor(Math.random() * 16),
@@ -22,24 +21,24 @@ function Carta({ id, name, img }) {
 }
 
 const listaDeCartas = [
-  new Carta({ id: "Nº001", name: "Bulbasaur", img: "001.png" }),
-  new Carta({ id: "Nº002", name: "Ivysaur", img: "002.png" }),
-  new Carta({ id: "Nº003", name: "Venusaur", img: "003.png" }),
-  new Carta({ id: "Nº004", name: "Charmander", img: "004.png" }),
-  new Carta({ id: "Nº005", name: "Charmeleon", img: "005.png" }),
-  new Carta({ id: "Nº006", name: "Charizard", img: "006.png" }),
-  new Carta({ id: "Nº007", name: "Squirtle", img: "007.png" }),
-  new Carta({ id: "Nº008", name: "Wartortle", img: "008.png" }),
-  new Carta({ id: "Nº009", name: "Blastoise", img: "009.png" }),
-  new Carta({ id: "Nº010", name: "Caterpie", img: "010.png" }),
-  new Carta({ id: "Nº011", name: "Metapod", img: "011.png" }),
-  new Carta({ id: "Nº012", name: "Butterfree", img: "012.png" }),
-  new Carta({ id: "Nº013", name: "Weedle", img: "013.png" }),
-  new Carta({ id: "Nº014", name: "Kakuna", img: "014.png" }),
-  new Carta({ id: "Nº015", name: "Beedrill", img: "015.png" }),
-  new Carta({ id: "Nº016", name: "Pidgey", img: "016.png" }),
-  new Carta({ id: "Nº017", name: "Pidgeotto", img: "017.png" }),
-  new Carta({ id: "Nº018", name: "Pidgeot", img: "018.png" }),
+  new Carta({ id: "001", name: "Bulbasaur" }),
+  new Carta({ id: "002", name: "Ivysaur" }),
+  new Carta({ id: "003", name: "Venusaur" }),
+  new Carta({ id: "004", name: "Charmander" }),
+  new Carta({ id: "005", name: "Charmeleon" }),
+  new Carta({ id: "006", name: "Charizard" }),
+  new Carta({ id: "007", name: "Squirtle" }),
+  new Carta({ id: "008", name: "Wartortle" }),
+  new Carta({ id: "009", name: "Blastoise" }),
+  new Carta({ id: "010", name: "Caterpie" }),
+  new Carta({ id: "011", name: "Metapod" }),
+  new Carta({ id: "012", name: "Butterfree" }),
+  new Carta({ id: "013", name: "Weedle" }),
+  new Carta({ id: "014", name: "Kakuna" }),
+  new Carta({ id: "015", name: "Beedrill" }),
+  new Carta({ id: "016", name: "Pidgey" }),
+  new Carta({ id: "017", name: "Pidgeotto" }),
+  new Carta({ id: "018", name: "Pidgeot" }),
 ];
 
 function exibirCartaNaTela({ carta, num, hasInput, exemple }) {
@@ -58,15 +57,15 @@ function exibirCartaNaTela({ carta, num, hasInput, exemple }) {
   elemento +=
     "<div class='tituloCarta'><div class='nomeCarta'>" +
     carta.nome +
-    "</div><div class='idCarta'>" +
+    "</div><div class='idCarta'>Nº" +
     carta.id +
     "</div></div>";
   // imagem da carta
   elemento += "<div class='imgCarta'>";
   elemento +=
     "<img src='https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" +
-    carta.img +
-    "' alt='' />";
+    carta.id +
+    ".png' alt='' />";
   elemento += "<br>crédito da imagem: pokemon.com</div>";
   // atributos
   for (const atrb in carta.atributos) {
