@@ -7,8 +7,9 @@ let cartasSelecionadas;
 const cartasDoJogador = [];
 const cartasDoComputador = [];
 
-function Carta(nome, img) {
-  this.nome = nome;
+function Carta({ id, name, img }) {
+  this.id = id;
+  this.nome = name;
   this.img = img;
   this.atributos = {
     HP: Math.floor(Math.random() * 16),
@@ -21,85 +22,73 @@ function Carta(nome, img) {
 }
 
 const listaDeCartas = [
-  new Carta(
-    "Bulbasaur",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png"
-  ),
-  new Carta(
-    "Ivysaur",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/002.png"
-  ),
-  new Carta(
-    "Venusaur",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/003.png"
-  ),
-  new Carta(
-    "Charmander",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/004.png"
-  ),
-  new Carta(
-    "Charmeleon",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/005.png"
-  ),
-  new Carta(
-    "Charizard",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/006.png"
-  ),
-  new Carta(
-    "Squirtle",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/007.png"
-  ),
-  new Carta(
-    "Wartortle",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/008.png"
-  ),
-  new Carta(
-    "Blastoise",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/009.png"
-  ),
-  new Carta(
-    "Caterpie",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/010.png"
-  ),
-  new Carta(
-    "Metapod",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/011.png"
-  ),
-  new Carta(
-    "Butterfree",
-    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/012.png"
-  ),
+  new Carta({ id: "Nº001", name: "Bulbasaur", img: "001.png" }),
+  new Carta({ id: "Nº002", name: "Ivysaur", img: "002.png" }),
+  new Carta({ id: "Nº003", name: "Venusaur", img: "003.png" }),
+  new Carta({ id: "Nº004", name: "Charmander", img: "004.png" }),
+  new Carta({ id: "Nº005", name: "Charmeleon", img: "005.png" }),
+  new Carta({ id: "Nº006", name: "Charizard", img: "006.png" }),
+  new Carta({ id: "Nº007", name: "Squirtle", img: "007.png" }),
+  new Carta({ id: "Nº008", name: "Wartortle", img: "008.png" }),
+  new Carta({ id: "Nº009", name: "Blastoise", img: "009.png" }),
+  new Carta({ id: "Nº010", name: "Caterpie", img: "010.png" }),
+  new Carta({ id: "Nº011", name: "Metapod", img: "011.png" }),
+  new Carta({ id: "Nº012", name: "Butterfree", img: "012.png" }),
+  new Carta({ id: "Nº013", name: "Weedle", img: "013.png" }),
+  new Carta({ id: "Nº014", name: "Kakuna", img: "014.png" }),
+  new Carta({ id: "Nº015", name: "Beedrill", img: "015.png" }),
+  new Carta({ id: "Nº016", name: "Pidgey", img: "016.png" }),
+  new Carta({ id: "Nº017", name: "Pidgeotto", img: "017.png" }),
+  new Carta({ id: "Nº018", name: "Pidgeot", img: "018.png" }),
 ];
 
-function exibirCartaNaTela(carta, num, hasInput) {
+function exibirCartaNaTela({ carta, num, hasInput, exemple }) {
   let elemento = "<div class='cartaTitle'>";
-  elemento += num ? "Carta do Computador" : "Carta do Jogador";
+  if (exemple) {
+    elemento += "Carta de exemplo";
+  } else if (num) {
+    elemento += "Carta do Computador";
+  } else {
+    elemento += "Carta do Jogador";
+  }
   elemento += "</div>";
   // abertura da table
-  elemento += "<table><tbody>";
+  elemento += "<div class=carta-table>";
   // nome da carta
-  elemento += "<tr><th colspan='3'>" + carta.nome + "</th></tr>";
+  elemento +=
+    "<div class='tituloCarta'><div class='nomeCarta'>" +
+    carta.nome +
+    "</div><div class='idCarta'>" +
+    carta.id +
+    "</div></div>";
   // imagem da carta
-  elemento += "<tr><td colspan='3'><div class='imagem'>";
-  elemento += "<img src=" + carta.img + " alt='' />";
-  elemento += "<br>crédito da imagem: pokemon.com</div></td></tr>";
+  elemento += "<div class='imgCarta'>";
+  elemento +=
+    "<img src='https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" +
+    carta.img +
+    "' alt='' />";
+  elemento += "<br>crédito da imagem: pokemon.com</div>";
   // atributos
   for (const atrb in carta.atributos) {
     if (Object.hasOwnProperty.call(carta.atributos, atrb)) {
       const valorAtrb = carta.atributos[atrb];
-      elemento += "<tr>";
       if (hasInput) {
-        elemento +=
-          "<td><input type='radio' name='atrbCarta' id='" + atrb + "' /></td>";
+        elemento += `<div><label for="${atrb}">`;
+        elemento += `<input type="radio" name="atrbCarta" id="${atrb}" />`;
+        elemento += `<span class="linhaAtrb input"><div class="chaveAtrb">${atrb}</div>`;
+        elemento += `<div class="valorAtrb">${valorAtrb}</div></span>`;
+        elemento += `</label></div>`;
+      } else {
+        elemento += `<div>`;
+        elemento += `<span class="linhaAtrb"><div class="chaveAtrb">${atrb}</div>`;
+        elemento += `<div class="valorAtrb">${valorAtrb}</div></span>`;
+        elemento += `</div>`;
       }
-      elemento += "<th>" + atrb + "</th>";
-      elemento += "<td>" + valorAtrb + "</td>";
-      elemento += "</tr>";
     }
   }
   // fechamento da table
-  elemento += "</tbody></table>";
-  elemento += "<div class='footer-info'>*Valores aleatórios</div>";
+  elemento += "</div>";
+  elemento += "<div class='footer-info'>Valores aleatórios</div>";
 
   document.getElementById("carta" + num).innerHTML = elemento;
 }
@@ -142,7 +131,12 @@ function sortearCarta() {
   embaralharCartas(listaDeCartas);
   cortarBaralho();
   cartasSelecionadas = selecionarCartas();
-  exibirCartaNaTela(cartasSelecionadas.cartaJogador, 0, true);
+  const command = {
+    carta: cartasSelecionadas.cartaJogador,
+    num: 0,
+    hasInput: true,
+  };
+  exibirCartaNaTela(command);
   btnSortear.disabled = true;
   btnJogar.disabled = false;
   resultado.innerHTML = "";
@@ -190,7 +184,11 @@ function compararAtributos(atributoSelecionado) {
         cartasDoJogador.push(cartasSelecionadas.cartaJogador);
         if (cartasDoComputador.length > 0) btnSortear.disabled = false;
       }
-      exibirCartaNaTela(cartasSelecionadas.cartaComputador, 1);
+      const command = {
+        carta: cartasSelecionadas.cartaComputador,
+        num: 1,
+      };
+      exibirCartaNaTela(command);
       btnJogar.disabled = true;
     }
   }
@@ -199,8 +197,16 @@ function compararAtributos(atributoSelecionado) {
 
 function cartasExemplo() {
   embaralharCartas(listaDeCartas);
-  exibirCartaNaTela(listaDeCartas[0], 0);
-  exibirCartaNaTela(listaDeCartas[1], 1);
+  exibirCartaNaTela({
+    carta: listaDeCartas[0],
+    num: 0,
+    exemple: true,
+  });
+  exibirCartaNaTela({
+    carta: listaDeCartas[1],
+    num: 1,
+    exemple: true,
+  });
 }
 
 cartasExemplo();

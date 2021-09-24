@@ -1,57 +1,22 @@
 body {
-  font-family: "Roboto Mono", monospace;
-  min-height: 854px;
-  background-image: url("https://www.alura.com.br/assets/img/imersoes/dev-2021/dia-07-super-trunfo-bg.png");
-  background-color: #000000;
-  background-size: cover;
-  background-position: center top;
+  background-image: url("https://i.pinimg.com/736x/47/b9/14/47b91495e80426f8b2d419a23c80da59--backgrounds-final.jpg");
+  background-position: center;
   background-repeat: no-repeat;
-  padding-bottom: 20vh;
+  background-size: cover;
+  font-family: "Roboto Mono", monospace;
+  text-align: center;
+  margin: 0;
 }
 
 .container {
-  text-align: center;
-  padding: 20px;
+  height: 100vh;
 }
 
-.page-title {
-  color: #ffffff;
-  margin: 5px 0;
-}
-
-button {
-  padding: 0.8rem 1.5rem;
-  margin: 1rem 0;
-  border-radius: 5px;
-  border: none;
-  font-size: 1rem;
-}
-
-h2 {
-  color: white;
-}
-
-#carta-jogador {
-  width: 360px;
-  height: 500px;
-  overflow: auto;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  margin: 0 auto;
-  display: flex;
-  align-items: flex-end;
-}
-
-#carta-jogador h3 {
-  text-align: center;
-}
-
-#resultado {
-  color: #ffffff;
+.page-logo {
+  width: 300px;
 }
 
 .cartaTitle {
-  display: inline-block;
   color: white;
   margin: auto;
 }
@@ -62,30 +27,64 @@ h2 {
   margin: auto;
 }
 
-.imagem {
+.carta-table {
+  background-image: linear-gradient(#fed242, #e1fe9f, #bee753);
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 8px 16px 16px #00000066;
+}
+
+.tituloCarta {
+  background-color: #2d6b0f;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.imgCarta {
+  background-image: linear-gradient(#caa93d, #b3cf72, #a7ca4e);
   font-size: 10px;
 }
 
-.imagem img {
+.imgCarta img {
   max-width: 60%;
   max-height: 60%;
 }
 
-table {
-  background-color: #ffe164;
+.linhaAtrb {
+  background-color: #74b352;
+  margin: 4px 0;
 }
 
-table,
-tr,
-th,
-td {
-  text-align: center;
-  border-radius: 16px;
+.tituloCarta,
+.linhaAtrb {
+  display: flex;
+  justify-content: space-between;
   padding: 2px;
 }
 
-tr {
-  background-color: #74b352;
+.tituloCarta div,
+.linhaAtrb div {
+  margin: 0 8px;
+}
+
+.input:hover {
+  background-color: #4f922b;
+  color: white;
+  cursor: pointer;
+}
+
+input {
+  display: none;
+}
+
+:checked + .linhaAtrb {
+  font-weight: bold;
+  background-color: #428120;
+  color: white;
+}
+
+.chaveAtrb {
+  font-weight: 600;
 }
 
 .footer-info {

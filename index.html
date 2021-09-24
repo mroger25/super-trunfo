@@ -1,29 +1,38 @@
-<html>
+<!DOCTYPE html>
+<html lang="pt-br">
   <head>
-    <title>Imersão Dev - Aula 07</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Trunfo - Pokémon</title>
     <link rel="stylesheet" href="main.css" />
   </head>
 
   <body>
     <div class="container">
-      <img
-        src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-super-trunfo.png"
-        class="page-logo"
-        alt=""
-      />
-      <h1 class="page-title">Super Trunfo - Pokémon</h1>
-      <button onclick="sortearCarta()" id="btnSortear">Sortear carta</button>
-      <br />
-      <div class="cartas">
-        <div class="carta" id="carta0"></div>
-        <div class="carta" id="carta1"></div>
+      <div class="header">
+        <img
+          src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-super-trunfo.png"
+          class="page-logo"
+          alt=""
+        />
+        <div class="page-title">Super Trunfo - Pokémon</div>
       </div>
-      <h2>Escolha o seu atributo</h2>
-      <button type="button" id="btnJogar" onclick="jogar()" disabled="false">
-        Jogar
-      </button>
-      <div id="resultado"></div>
+
+      <div class="main">
+        <div class="cartas">
+          <div class="carta" id="carta0"></div>
+          <div class="carta" id="carta1"></div>
+        </div>
+        <div>Escolha o seu atributo</div>
+        <button onclick="sortearCarta()" id="btnSortear">Sortear carta</button>
+        <button type="button" id="btnJogar" onclick="jogar()" disabled="false">
+          Jogar
+        </button>
+        <div id="resultado"></div>
+      </div>
     </div>
+
     <script src="main.js"></script>
   </body>
 </html>
