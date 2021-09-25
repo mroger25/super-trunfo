@@ -38,10 +38,22 @@ body {
 
 .carta-table {
   color: #000000;
-  background-image: linear-gradient(#fed242, #e1fe9f, #bee753);
+  background: linear-gradient(#fed242, #e1fe9f, #bee753);
   padding: 8px;
   border-radius: 8px;
   box-shadow: 8px 16px 16px #00000066;
+  width: 215px;
+  height: 333px;
+}
+
+.imgCapa {
+  width: 200px;
+  height: 200px;
+  margin: 50px auto;
+  background-image: url("https://logodownload.org/wp-content/uploads/2017/08/pokemon-logo-6.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
 }
 
 .tituloCarta {
@@ -88,7 +100,8 @@ input {
   display: none;
 }
 
-:checked + .linhaAtrb {
+:checked + .linhaAtrb,
+.atrbSelecionado {
   font-weight: bold;
   background-color: #428120;
   color: white;

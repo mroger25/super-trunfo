@@ -1,15 +1,16 @@
-const btnSortear = document.getElementById("btnSortear");
-const opcoes = document.getElementById("opcoes");
 const btnJogar = document.getElementById("btnJogar");
 const resultado = document.getElementById("resultado");
 
 let cartasSelecionadas;
+let atrbSelecionado;
 const cartasDoJogador = [];
 const cartasDoComputador = [];
 
 function Carta({ id, name }) {
   this.id = id;
   this.nome = name;
+  this.img =
+    "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" + id + ".png";
   this.atributos = {
     HP: Math.floor(Math.random() * 16),
     "Phc. Atk": Math.floor(Math.random() * 16),
@@ -41,61 +42,65 @@ const listaDeCartas = [
   new Carta({ id: "018", name: "Pidgeot" }),
 ];
 
-function exibirCartaNaTela({ carta, num, hasInput, exemple }) {
+function exibirCartaNaTela({
+  carta,
+  num,
+  hasInput,
+  textoTitle,
+  contentHidden,
+}) {
+  // título
   let elemento = "<div class='cartaTitle'>";
-  if (exemple) {
-    elemento += "Carta de exemplo";
-  } else if (num) {
-    elemento += "Carta do Computador";
-  } else {
-    elemento += "Carta do Jogador";
-  }
+  elemento += textoTitle;
   elemento += "</div>";
   // abertura da table
-  elemento += "<div class=carta-table>";
-  // nome da carta
-  elemento +=
-    "<div class='tituloCarta'><div class='nomeCarta'>" +
-    carta.nome +
-    "</div><div class='idCarta'>Nº" +
-    carta.id +
-    "</div></div>";
-  // imagem da carta
-  elemento += "<div class='imgCarta'>";
-  elemento +=
-    "<img src='https://assets.pokemon.com/assets/cms2/img/pokedex/detail/" +
-    carta.id +
-    ".png' alt='' />";
-  elemento += "<br>crédito da imagem: pokemon.com</div>";
-  // atributos
-  for (const atrb in carta.atributos) {
-    if (Object.hasOwnProperty.call(carta.atributos, atrb)) {
-      const valorAtrb = carta.atributos[atrb];
-      if (hasInput) {
-        elemento += `<div><label for="${atrb}">`;
-        elemento += `<input type="radio" name="atrbCarta" id="${atrb}" />`;
-        elemento += `<span class="linhaAtrb input"><div class="chaveAtrb">${atrb}</div>`;
-        elemento += `<div class="valorAtrb">${valorAtrb}</div></span>`;
-        elemento += `</label></div>`;
-      } else {
-        elemento += `<div>`;
-        elemento += `<span class="linhaAtrb"><div class="chaveAtrb">${atrb}</div>`;
-        elemento += `<div class="valorAtrb">${valorAtrb}</div></span>`;
-        elemento += `</div>`;
+  elemento += `<div class="carta-table">`;
+  if (contentHidden) {
+    // capa
+    elemento += `<div class="imgCapa"></div>`;
+  } else {
+    // nome da carta
+    elemento += `<div class="tituloCarta"><div>${carta.nome}</div>`;
+    elemento += `<div>Nº${carta.id}</div></div>`;
+    // imagem da carta
+    elemento += "<div class='imgCarta'>";
+    elemento += "<img src='" + carta.img + "' alt='' />";
+    elemento += "<br>crédito da imagem: pokemon.com</div>";
+    // atributos
+    for (const atrb in carta.atributos) {
+      if (Object.hasOwnProperty.call(carta.atributos, atrb)) {
+        const valorAtrb = carta.atributos[atrb];
+        if (hasInput) {
+          elemento += `<div><label for="${atrb}">`;
+          elemento += `<input type="radio" name="atrbCarta" id="${atrb}" />`;
+          elemento += `<span onclick="selecionarAtrb('${atrb}')" class="linhaAtrb input">`;
+          elemento += `<div class="chaveAtrb">${atrb}</div>`;
+          elemento += `<div class="valorAtrb">${valorAtrb}</div></span></label></div>`;
+        } else {
+          if (atrb === atrbSelecionado) {
+            elemento += `<div><span class="linhaAtrb atrbSelecionado"><div class="chaveAtrb">${atrb}</div>`;
+          } else {
+            elemento += `<div><span class="linhaAtrb"><div class="chaveAtrb">${atrb}</div>`;
+          }
+          elemento += `<div class="valorAtrb">${valorAtrb}</div></span></div>`;
+        }
       }
     }
   }
   // fechamento da table
-  elemento += "</div>";
-  elemento += "<div class='footer-info'>Valores aleatórios</div>";
+  elemento += "</div><div class='footer-info'>Valores aleatórios</div>";
 
   document.getElementById("carta" + num).innerHTML = elemento;
 }
 
+function selecionarAtrb(atrb) {
+  atrbSelecionado = atrb;
+}
+
 function selecionarCartas() {
-  const cartaJogador = cartasDoJogador.shift();
-  const cartaComputador = cartasDoComputador.shift();
-  return { cartaComputador, cartaJogador };
+  const cartaJgd = cartasDoJogador.shift();
+  const cartaCpu = cartasDoComputador.shift();
+  return { cartaCpu, cartaJgd };
 }
 
 function embaralharCartas(array) {
@@ -112,11 +117,9 @@ function embaralharCartas(array) {
 function cortarBaralho() {
   const totalCartas = cartasDoJogador.length + cartasDoComputador.length;
   if (totalCartas === 0) {
-    const indexMediana = Math.floor(listaDeCartas.length / 2);
-    const indexMax = indexMediana * 2;
-    for (let i = 0; i < indexMax; i++) {
+    for (let i = 0; i < 10; i++) {
       const carta = listaDeCartas[i];
-      if (i < indexMediana) {
+      if (i < 5) {
         cartasDoJogador.push(carta);
       } else {
         cartasDoComputador.push(carta);
@@ -126,49 +129,37 @@ function cortarBaralho() {
 }
 
 function sortearCarta() {
+  document.getElementById("carta0").innerHTML = "";
   document.getElementById("carta1").innerHTML = "";
   embaralharCartas(listaDeCartas);
   cortarBaralho();
   cartasSelecionadas = selecionarCartas();
-  const command = {
-    carta: cartasSelecionadas.cartaJogador,
+  exibirCartaNaTela({
+    carta: cartasSelecionadas.cartaJgd,
     num: 0,
     hasInput: true,
-  };
-  exibirCartaNaTela(command);
-  btnSortear.disabled = true;
-  btnJogar.disabled = false;
+    textoTitle: "Carta do Jogador",
+  });
+  exibirCartaNaTela({
+    carta: cartasSelecionadas.cartaCpu,
+    num: 1,
+    textoTitle: "Carta do Computador",
+    contentHidden: true,
+  });
+  btnJogar.setAttribute("onclick", "compararAtrb()");
+  btnJogar.innerHTML = "Comparar";
   resultado.innerHTML = "";
 }
 
 function jogar() {
-  let atributoSelecionado = selecionarAtributo();
-  mostrarResultadoNaTela(atributoSelecionado);
+  sortearCarta();
 }
 
-function selecionarAtributo() {
-  const atributos = document.getElementsByName("atrbCarta");
-  let atributoSelecionado = "";
-  atributos.forEach((atributo) => {
-    if (atributo.checked) {
-      atributoSelecionado = atributo.id;
-    }
-  });
-  return atributoSelecionado;
-}
-
-function mostrarResultadoNaTela(atributoSelecionado) {
-  let resultadoTexto = compararAtributos(atributoSelecionado);
-  resultado.innerHTML = resultadoTexto;
-}
-
-function compararAtributos(atributoSelecionado) {
-  let resultadoTexto = "Selecione um atributo";
-  if (atributoSelecionado !== "") {
-    const atrbJgd =
-      cartasSelecionadas.cartaJogador.atributos[atributoSelecionado];
-    const atrbCpu =
-      cartasSelecionadas.cartaComputador.atributos[atributoSelecionado];
+function compararAtrb() {
+  let resultadoTexto = "";
+  if (atrbSelecionado) {
+    const atrbJgd = cartasSelecionadas.cartaJgd.atributos[atrbSelecionado];
+    const atrbCpu = cartasSelecionadas.cartaCpu.atributos[atrbSelecionado];
     if (atrbJgd === atrbCpu) {
       resultadoTexto = "Empatou! Selecione outro atributo.";
     } else {
@@ -176,22 +167,28 @@ function compararAtributos(atributoSelecionado) {
         resultadoTexto = "Você perdeu!";
         cartasDoComputador.push(cartasSelecionadas.cartaJogador);
         cartasDoComputador.push(cartasSelecionadas.cartaComputador);
-        if (cartasDoJogador.length > 0) btnSortear.disabled = false;
       } else {
         resultadoTexto = "Você venceu!";
         cartasDoJogador.push(cartasSelecionadas.cartaComputador);
         cartasDoJogador.push(cartasSelecionadas.cartaJogador);
-        if (cartasDoComputador.length > 0) btnSortear.disabled = false;
       }
-      const command = {
-        carta: cartasSelecionadas.cartaComputador,
+      exibirCartaNaTela({
+        carta: cartasSelecionadas.cartaCpu,
         num: 1,
-      };
-      exibirCartaNaTela(command);
-      btnJogar.disabled = true;
+        textoTitle: "Carta do Computador",
+      });
+      btnJogar.setAttribute("onclick", "turnar()");
+      btnJogar.innerHTML = "Próxima carta";
     }
+  } else {
+    resultadoTexto = "(Selecione um atributo)";
   }
-  return resultadoTexto;
+  resultado.innerHTML = resultadoTexto;
+}
+
+function turnar() {
+  atrbSelecionado = null;
+  jogar();
 }
 
 function cartasExemplo() {
@@ -199,12 +196,12 @@ function cartasExemplo() {
   exibirCartaNaTela({
     carta: listaDeCartas[0],
     num: 0,
-    exemple: true,
+    textoTitle: "Carta de Exemplo",
   });
   exibirCartaNaTela({
     carta: listaDeCartas[1],
     num: 1,
-    exemple: true,
+    textoTitle: "Carta de Exemplo",
   });
 }
 
